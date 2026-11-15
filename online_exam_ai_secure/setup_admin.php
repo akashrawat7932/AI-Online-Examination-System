@@ -1,0 +1,10 @@
+<?php require_once __DIR__ . '/config/config.php';
+$u = 'admin';
+$p = 'ChangeMe_123!';
+$s = db()->prepare('SELECT id FROM users WHERE username=?');
+$s->execute([$u]);
+if ($s->fetch()) exit('Admin already exists. Delete this file.');
+$h = password_hash($p, PASSWORD_DEFAULT);
+$i = db()->prepare('INSERT INTO users(username,password_hash,role) VALUES(?,?,?)');
+$i->execute([$u, $h, 'admin']);
+echo 'Created admin/admin password ChangeMe_123!. DELETE setup_admin.php NOW.';
